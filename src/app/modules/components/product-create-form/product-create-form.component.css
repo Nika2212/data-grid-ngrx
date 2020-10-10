@@ -1,0 +1,8 @@
+.product-create-form {
+  padding: 15px;
+
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+
+  background-color: var(--card-background-color);
+}

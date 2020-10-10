@@ -1,1 +1,52 @@
-<p>product-list works!</p>
+<div class="component product-list">
+  <div class="panel">
+    <div class="grid">
+      <div class="grid-header">
+        <div class="grid-column">
+          <label>Product Name</label>
+        </div>
+        <div class="grid-column">
+          <label>Product Category</label>
+        </div>
+      </div>
+      <div class="grid-body">
+        <div *ngFor="let product of productList; let i = index" (click)="onProductClick(i)" [ngClass]="{'selected' : product?.id === selectedProduct?.id}" class="grid-row">
+          <div class="grid-column">
+            <label>{{ product.name }}</label>
+          </div>
+          <div class="grid-column">
+            <label>{{ product.category }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel details">
+    <div class="information">
+      <div class="content-row">
+        <label>ID: </label>
+        <label>{{ selectedProduct?.id || 'N/A' }}</label>
+      </div>
+      <div class="content-row">
+        <label>Merchant Name: </label>
+        <label>{{ selectedProduct?.merchantName || 'N/A' }}</label>
+      </div>
+      <div class="content-row">
+        <label>Merchant IBAN: </label>
+        <label>{{ selectedProduct?.merchantIBAN || 'N/A' }}</label>
+      </div>
+      <div class="content-row">
+        <label>Customer Name: </label>
+        <label>{{ selectedProduct?.customerName || 'N/A' }}</label>
+      </div>
+      <div class="content-row">
+        <label>Customer IBAN: </label>
+        <label>{{ selectedProduct?.customerIBAN || 'N/A' }}</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button [disabled]="!selectedProduct" (click)="onProductEditClick()" class="btn btn-primary">Edit</button>
+      <button [disabled]="!selectedProduct" (click)="onProductRemoveClick()" class="btn btn-danger">Remove</button>
+    </div>
+  </div>
+</div>
