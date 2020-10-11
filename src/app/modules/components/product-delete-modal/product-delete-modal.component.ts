@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from '../../../shared/models/product.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
 import { EventBusService } from '../../../core/services/event-bus.service';
 import { EmitEvent } from '../../../shared/models/emit-event.model';
 import { EventBusActions } from '../../../core/enums/event-bus-actions';
-import { Product } from '../../../shared/models/product.model';
 import { map } from 'rxjs/operators';
+import { RemoveProductAction } from '../../../store/actions/product.action';
 
 @Component({
-  selector: 'app-product-edit-form',
-  templateUrl: './product-edit-form.component.html',
-  styleUrls: ['./product-edit-form.component.css']
+  selector: 'app-product-delete-modal',
+  templateUrl: './product-delete-modal.component.html',
+  styleUrls: ['./product-delete-modal.component.css']
 })
-export class ProductEditFormComponent implements OnInit {
+export class ProductDeleteModalComponent implements OnInit {
   public productModel: Product;
 
   constructor(
@@ -21,14 +22,18 @@ export class ProductEditFormComponent implements OnInit {
   ) { }
 
   private closeModal(): void {
-    this.eventBusService.emit(new EmitEvent(EventBusActions.EditModalClose));
+    this.eventBusService.emit(new EmitEvent(EventBusActions.DeleteModalClose));
   }
 
-  private saveChanges(): void {}
+  private deleteProduct(): void {
+    this.store.dispatch(new RemoveProductAction(this.productModel.id));
+    this.eventBusService.emit(new EmitEvent(EventBusActions.OnProductDelete));
+    this.closeModal();
+  }
 
   public ngOnInit(): void {
     this.store.select(store => store.productState)
-      .pipe(map(s => s.selectedProduct))
+      .pipe(map(u => u.selectedProduct))
       .subscribe(payload => this.productModel = payload);
   }
 
@@ -36,7 +41,7 @@ export class ProductEditFormComponent implements OnInit {
     this.closeModal();
   }
 
-  public onSave(): void {
-    this.saveChanges();
+  public onDelete(): void {
+    this.deleteProduct();
   }
 }

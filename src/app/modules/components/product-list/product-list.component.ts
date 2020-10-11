@@ -3,7 +3,7 @@ import { Product } from '../../../shared/models/product.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
 import { map } from 'rxjs/operators';
-import { RemoveProductAction, SelectProductAction } from '../../../store/actions/product.action';
+import { SelectProductAction } from '../../../store/actions/product.action';
 import { EventBusService } from '../../../core/services/event-bus.service';
 import { EmitEvent } from '../../../shared/models/emit-event.model';
 import { EventBusActions } from '../../../core/enums/event-bus-actions';
@@ -44,14 +44,12 @@ export class ProductListComponent implements OnInit {
   }
 
   private removeProduct(): void {
-    const id = this.selectedProduct.id;
-
-    this.store.dispatch(new RemoveProductAction(id));
-    this.selectedProduct = null;
+    this.eventBusService.emit(new EmitEvent(EventBusActions.DeleteModalOpen));
   }
 
   public ngOnInit(): void {
     this.getProductData();
+    this.eventBusService.on(EventBusActions.OnProductDelete, () => this.selectedProduct = null);
   }
 
   public onProductClick(index: number): void {

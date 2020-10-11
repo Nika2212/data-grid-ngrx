@@ -9,13 +9,15 @@ import { StoreModule } from '@ngrx/store';
 import { ProductReducer } from './store/reducers/product.reducer';
 import { FormsModule } from '@angular/forms';
 import { EventBusService } from './core/services/event-bus.service';
+import { ProductDeleteModalComponent } from './modules/components/product-delete-modal/product-delete-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     ProductCreateFormComponent,
-    ProductEditFormComponent
+    ProductEditFormComponent,
+    ProductDeleteModalComponent
   ],
   imports: [
     BrowserModule,

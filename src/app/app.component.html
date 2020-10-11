@@ -17,4 +17,10 @@
       <app-product-edit-form></app-product-edit-form>
     </div>
   </div>
+
+  <div *ngIf="deleteModalState" class="modal-area">
+    <div class="product-delete-modal">
+      <app-product-delete-modal></app-product-delete-modal>
+    </div>
+  </div>
 </div>
